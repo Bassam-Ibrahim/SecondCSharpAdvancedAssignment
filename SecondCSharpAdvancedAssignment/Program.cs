@@ -18,6 +18,13 @@ class Program
 
         return filteredProducts;
     }
+    public static void PrintRepo(List<Product> products, Action<Product> y)
+    {
+        foreach (var product in products)
+        {
+            y(product);
+        }
+    }
 
     public static void Main(string[] args)
     {
@@ -53,35 +60,53 @@ class Program
             catalog,
             p => p.Category == "Clothing" && p.Price < 100
         );
-        Console.WriteLine("--- Electronics ---");
+        //Console.WriteLine("--- Electronics ---");
 
-        foreach (var product in electronics)
+        //foreach (var product in electronics)
+        //{
+        //    Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+        //}
+
+
+        //Console.WriteLine("\n--- Under $50 ---");
+
+        //foreach (var product in under50)
+        //{
+        //    Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+        //}
+
+
+        //Console.WriteLine("\n--- In Stock ---");
+
+        //foreach (var product in inStock)
+        //{
+        //    Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+        //}
+
+
+        //Console.WriteLine("\n--- Clothing Under $100 ---");
+
+        //foreach (var product in clothingUnder100)
+        //{
+        //    Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
+        //}
+        Console.WriteLine("--- Short Report ---");
+
+        PrintRepo(catalog, p =>
         {
-            Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-        }
+            Console.WriteLine($"{p.Name} - ${p.Price}");
+        });
 
 
-        Console.WriteLine("\n--- Under $50 ---");
+        Console.WriteLine("\n--- Detailed Report ---");
 
-        foreach (var product in under50)
+        PrintRepo(catalog, p =>
         {
-            Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-        }
-
-
-        Console.WriteLine("\n--- In Stock ---");
-
-        foreach (var product in inStock)
-        {
-            Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-        }
-
-
-        Console.WriteLine("\n--- Clothing Under $100 ---");
-
-        foreach (var product in clothingUnder100)
-        {
-            Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
-        }
+            Console.WriteLine(
+                $"[{p.Category}] {p.Name} | Price: ${p.Price} | Stock: {p.Stock}"
+            );
+        });
     }
-}
+          
+
+    }
