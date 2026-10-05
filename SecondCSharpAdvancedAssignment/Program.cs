@@ -25,7 +25,15 @@ class Program
             y(product);
         }
     }
-
+    public static List<T> TransformProducts<T>(List<Product> products, Func<Product, T> y)
+    {
+        List<T> transformedProducts = new();
+        foreach (var product in products)
+        {
+            transformedProducts.Add(y(product));
+        }
+        return transformedProducts;
+    }
     public static void Main(string[] args)
     {
         List<Product> catalog = new()
@@ -90,23 +98,50 @@ class Program
         //{
         //    Console.WriteLine($"{product.Name} - ${product.Price} (Stock: {product.Stock})");
         //}
-        Console.WriteLine("--- Short Report ---");
 
-        PrintRepo(catalog, p =>
+
+        //Console.WriteLine("--- Short Report ---");
+
+        //PrintRepo(catalog, p =>
+        //{
+        //    Console.WriteLine($"{p.Name} - ${p.Price}");
+        //});
+
+
+        //Console.WriteLine("\n--- Detailed Report ---");
+
+        //PrintRepo(catalog, p =>
+        //{
+        //    Console.WriteLine(
+        //        $"[{p.Category}] {p.Name} | Price: ${p.Price} | Stock: {p.Stock}"
+        //    );
+        //});
+
+        Console.WriteLine("--- Summary List ---");
+
+        var summaryList = TransformProducts(
+            catalog,
+            p => $"{p.Name} (${p.Price})"
+        );
+
+        foreach (var item in summaryList)
         {
-            Console.WriteLine($"{p.Name} - ${p.Price}");
-        });
+            Console.WriteLine(item);
+        }
 
 
-        Console.WriteLine("\n--- Detailed Report ---");
+        Console.WriteLine("\n--- Price Labels ---");
 
-        PrintRepo(catalog, p =>
+        var priceLabels = TransformProducts(
+            catalog,
+            p => $"{p.Name}: {(p.Price > 100 ? "Expensive!" : "Affordable")}"
+        );
+
+        foreach (var item in priceLabels)
         {
-            Console.WriteLine(
-                $"[{p.Category}] {p.Name} | Price: ${p.Price} | Stock: {p.Stock}"
-            );
-        });
+            Console.WriteLine(item);
+        }
     }
-          
 
-    }
+
+}
