@@ -34,6 +34,19 @@ class Program
         }
         return transformedProducts;
     }
+    public static List<Product> FilterProducts(List<Product> products, Predicate<Product> filtered)
+    {
+        List<Product> Filterd = new();
+        foreach (var product in products)
+        {
+            if (filtered(product))
+            {
+                Filterd.Add(product);
+            }
+        }
+        return Filterd;
+    }
+
     public static void Main(string[] args)
     {
         List<Product> catalog = new()
@@ -117,29 +130,40 @@ class Program
         //    );
         //});
 
-        Console.WriteLine("--- Summary List ---");
+        //Console.WriteLine("--- Summary List ---");
 
-        var summaryList = TransformProducts(
+        //var summaryList = TransformProducts(
+        //    catalog,
+        //    p => $"{p.Name} (${p.Price})"
+        //);
+
+        //foreach (var item in summaryList)
+        //{
+        //    Console.WriteLine(item);
+        //}
+
+
+        //Console.WriteLine("\n--- Price Labels ---");
+
+        //var priceLabels = TransformProducts(
+        //    catalog,
+        //    p => $"{p.Name}: {(p.Price > 100 ? "Expensive!" : "Affordable")}"
+        //);
+
+        //foreach (var item in priceLabels)
+        //{
+        //    Console.WriteLine(item);
+        //}
+        Console.WriteLine("--- Low-Stock Alert ---");
+
+        var lowStock = FilterProducts(
             catalog,
-            p => $"{p.Name} (${p.Price})"
+            p => p.Stock < 20
         );
 
-        foreach (var item in summaryList)
+        foreach (var product in lowStock)
         {
-            Console.WriteLine(item);
-        }
-
-
-        Console.WriteLine("\n--- Price Labels ---");
-
-        var priceLabels = TransformProducts(
-            catalog,
-            p => $"{p.Name}: {(p.Price > 100 ? "Expensive!" : "Affordable")}"
-        );
-
-        foreach (var item in priceLabels)
-        {
-            Console.WriteLine(item);
+            Console.WriteLine($"[LOW STOCK] {product.Name}: only {product.Stock} left!");
         }
     }
 
